@@ -1,21 +1,13 @@
-name: Tag Validation
-
-on:
-  pull_request:
-    branches: [master]
-  workflow_call:
-
-jobs:
-
-  tag_check:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
+steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Verify the tag value
-        run: ./scripts/tag_verify.sh
+      - name: Check current directory
+        run: pwd
+      - name: Download the script
+        run: curl -o $PWD/tag_verify.sh https://raw.githubusercontent.com/foo/git-workflows/master/scripts/tag_verify.sh
+      - name: Give script permissions
+        run: chmod +x $PWD/tag_verify.sh
+      - name: Execute script
+        run: $PWD/tag_verify.sh
